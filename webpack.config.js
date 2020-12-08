@@ -4,7 +4,7 @@ var path    = require('path');
 
 module.exports = {
   context: path.join(__dirname, "src"),
-  entry: "./js/client.js",
+  entry: "./js/client.jsx",
   module: {
     rules: [{
       test: /\.jsx?$/,
@@ -14,7 +14,8 @@ module.exports = {
         options: {
           presets: ['@babel/preset-react', '@babel/preset-env'],
           plugins: [
-            ['@babel/plugin-proposal-class-properties', { 'loose': true }]
+            ['@babel/plugin-proposal-class-properties', { 'loose': true }],
+            'react-html-attrs'
           ]
         }
       }]
@@ -22,12 +23,13 @@ module.exports = {
   },
   output: {
     path: __dirname + "/src/",
-    filename: "client.min.js",
-    publicPath: "/"
+    filename: "client.min.js"
   },
   devServer: {
+    publicPath: '/',
     contentBase: "./src",
-    hot: true
+    hot: true,
+    historyApiFallback: true
   },
   plugins: debug ? [] : [
     new webpack.optimize.OccurrenceOrderPlugin(),
