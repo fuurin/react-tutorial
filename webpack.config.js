@@ -5,6 +5,7 @@ var path    = require('path');
 module.exports = {
   context: path.join(__dirname, "src"),
   entry: "./js/client.js",
+  mode: 'development',
   module: {
     rules: [{
       test: /\.jsx?$/,
@@ -12,28 +13,33 @@ module.exports = {
       use: [{
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-react', '@babel/preset-env'],
           plugins: [
-            ['@babel/plugin-proposal-decorators', {legacy: true}],
-            ['@babel/plugin-proposal-class-properties', { 'loose': true }],
-            'react-html-attrs'
-          ]
+            'react-html-attrs',
+            [require('@babel/plugin-proposal-decorators'), {legacy: true}],
+            [require('@babel/plugin-proposal-class-properties'), {loose: true }]
+          ],
+          presets: ['@babel/preset-react', '@babel/preset-env']
         }
       }]
+    },
+    {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        'css-loader'
+      ]
     }]
   },
   output: {
     path: __dirname + "/src/",
-    filename: "client.min.js"
+    filename: "client.min.js",
+    publicPath: '/'
   },
   devServer: {
-    publicPath: '/',
-    contentBase: "./src",
-    hot: true,
     historyApiFallback: true
   },
   plugins: debug ? [] : [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
-  ]
+  ],
 };

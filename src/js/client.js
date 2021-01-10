@@ -1,12 +1,9 @@
+import "../css/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import Layout from "./components/Layout";
-import store from "./store";
+import TodoList from "./TodoList";
+import store from "./TodoStore";
 
-const app = document.getElementById('app');
+const app = document.getElementById("app");
 
-ReactDOM.render(
-<Provider store={store}>
-  <Layout />
-</Provider>, app);
+ReactDOM.render(<TodoList store={store} />, app);
